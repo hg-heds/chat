@@ -3,8 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 
 host = '0.0.0.0'
-
-port = 50001
+port = int (input("PORT: ") or 50001) 
 conexoes = 0
 MAX_CLIENT = None
 sockets_on = []
