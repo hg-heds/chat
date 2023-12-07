@@ -1,12 +1,15 @@
 import socket
 from ui import APP
 from threading import Thread,Lock
+from typing import Callable
+
+
 host = input("HOST: ") or '127.0.0.1'
 port = int (input("PORT: ") or 50001)
 
 iostream_lock = Lock()
 
-def receive(client_socket, print_function, bool_running):
+def receive(client_socket: socket.socket, print_function: Callable, bool_running: Callable) -> None:
     client_socket.settimeout(1)
     while bool_running():
         try:
@@ -20,6 +23,7 @@ def receive(client_socket, print_function, bool_running):
             break
         except:
             break
+    return 
 
 
 try:
@@ -42,6 +46,7 @@ try:
 
 except(Exception, socket.error) as e:
     print(str(e))
+    
 except:
     print("Erro se detecção")
     

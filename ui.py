@@ -13,12 +13,12 @@ palette = [
 class APP:
     def __init__(self) -> None:
         self.RUNNING = True
-        self.send_function = self.foo
+        self.send_function = self._foo
         self.root = tk.Tk()
         self.root.resizable(0,0)
         self.root.geometry("700x700")
         self.root.title("Chat")
-        self.root.protocol("WM_DELETE_WINDOW", self.onclosing)
+        self.root.protocol("WM_DELETE_WINDOW", self._onclosing)
 
 
         self.title_frame = tk.Frame(self.root, padx=10, pady=5, width=10, height=60, background=palette[0])
@@ -46,28 +46,27 @@ class APP:
         send_btn.pack(side=LEFT)
 
         self.textbox.insert(END,'Hello\n')
-
-
-    def start(self):
-        try:
-            self.root.mainloop()
-        except KeyboardInterrupt:
-            self.root.destroy()
         
-    def foo(self, message):
+    def _foo(self, message: str) -> None:
         print(message)
 
-    def onclosing(self):
+    def _onclosing(self) -> None:
         self.RUNNING = False 
         sleep(1.1)
         self.send_function('#')
         self.root.destroy()
 
-    def running(self):
+    def start(self) -> None:
+        try:
+            self.root.mainloop()
+        except KeyboardInterrupt:
+            self.root.destroy()
+
+    def running(self) -> bool:
         return self.RUNNING
 
 
-    def ins(self,message=None):
+    def ins(self,message: str|None = None) -> None:
         if not message:
             entry_value = self.insert.get()
             message = f"Você: {entry_value}"
@@ -75,12 +74,13 @@ class APP:
             self.insert.delete(0,END)
 
             if entry_value == '#':
-                self.onclosing()
-                return
+                self._onclosing()
+                return 
             
         self.textbox.config(state=NORMAL)
         self.textbox.insert(END,message+'\n')
         self.textbox.config(state=DISABLED)
+        return 
 
 
 
